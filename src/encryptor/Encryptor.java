@@ -11,10 +11,14 @@ public class Encryptor {
 	private long publicKeyN;
 	private long publicKeyE;
 	
+	public Encryptor(long pkN,long pkE) {
+		publicKeyE = pkE;
+		publicKeyN = pkN;
+	}
 	private long[] convertMessage(String msg) {
 		long[] convMsg = new long[msg.length()];
 		for(int i = 0;i<convMsg.length;i++) {
-			convMsg[i]= new Integer(msg.charAt(i));
+			convMsg[i]= msg.charAt(i);
 		}
 		return convMsg;
 	}
