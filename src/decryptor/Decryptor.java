@@ -1,6 +1,7 @@
 package decryptor;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 public class Decryptor {
 	private long primeP, primeQ, primeE;
@@ -40,11 +41,16 @@ public class Decryptor {
 			byte[] info = new byte[is.available()];
 			is.read(info);
 			String s = new String(info);
+			s  = s.trim();
 			String[] eChars = s.split(",");
 			long[] chars = new long[eChars.length];
 			for(int i = 0;i<eChars.length;i++) {
+				if(eChars[i].isEmpty()) continue;
 				long charValue = new Long(eChars[i]);
-				chars[i] = (long) ((Math.pow(charValue,dValue))%prod);
+				BigDecimal bd = new BigDecimal(charValue);
+				bd = bd.pow((int)dValue);
+				long g = bd.divideAndRemainder(new BigDecimal(prod))[1].longValue();
+				chars[i] = g;
 			}
 			StringBuilder sb = new StringBuilder();
 			for(long letter : chars) {
